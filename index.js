@@ -35,6 +35,15 @@ function createStore (reducer) {
     if (action.type === 'ADD_TODO') {
       return state.concat([action.todo])
     }
+    if (action.type === 'REMOVE_TODO') {
+      return state.filter(todo => todo.id !== action.todo.id)
+    }
+    if (action.type === 'TOGGLE_TODO') {
+       return state.map(todo => todo.id === action.todo.id ? 
+        Object.assign({}, todo, {complete: !todo.complete})
+        : 
+        todo) 
+    }
   
     return state
   }
@@ -49,5 +58,28 @@ store.dispatch({
         id: 0,
         name: 'Learning Redux',
         complete: false,
+    }
+})
+
+store.dispatch({
+    type: 'ADD_TODO',
+    todo: {
+        id: 1,
+        name: 'Still learning',
+        complete: false,
+    }
+})
+
+store.dispatch({
+    type: 'REMOVE_TODO',
+    todo: {
+        id: 0,
+    }
+})
+
+store.dispatch({
+    type: 'TOGGLE_TODO',
+    todo: {
+        id: 1,
     }
 })
